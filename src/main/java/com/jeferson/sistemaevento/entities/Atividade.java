@@ -2,10 +2,7 @@ package com.jeferson.sistemaevento.entities;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name= "tb_atividade")
@@ -24,7 +21,7 @@ public class Atividade {
     @JoinColumn(name= "categoria_id")
     private Categoria categoria;
 
-    @OneToMany
+    @OneToMany(mappedBy = "atividade")
     private List<Bloco> blocos = new ArrayList<>();
 
     @ManyToMany(mappedBy = "atividades")
@@ -77,5 +74,18 @@ public class Atividade {
 
     public Set<Participante> getParticipantes() {
         return participantes;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Atividade atividade = (Atividade) o;
+        return Objects.equals(id, atividade.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }
